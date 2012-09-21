@@ -54,4 +54,31 @@ var translateSentence = function(sentence){
   return pigSentence;
 };
 
-console.log(translateSentence("JavaScript is cool"));
+var untranslateWord = function(word){
+  var parts = word.split('-');
+  
+  if(parts.length === 1){
+    return word;
+  }
+  
+  return parts[1].substring(0, parts[1].length - 2) + parts[0];
+};
+
+var untranslateSentence = function(pigStr){
+  var str = pigStr.split(' ');
+  var normSentence = '';
+
+  for(var l = 0; l < str.length; l++){
+    if(l === str.length - 1){
+      normSentence += untranslateWord(str[l]);
+    } else {
+      normSentence += untranslateWord(str[l]) + " ";
+    }
+  }
+  return normSentence;   
+};
+
+//var x = translateSentence("JavaScript is cool")
+//console.log(x);
+//var y = untranslateSentence(x);
+//console.log(y);
