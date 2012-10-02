@@ -1,0 +1,23 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <title> Sound Generator </title>
+	<script src="../riffwave/riffwave.js"></script>
+ </head>
+
+ <body>
+ <script type="text/javascript">
+	var data = []; // just an array
+	for (var i=0; i<10000; i++){
+		data[i] = Math.round(255 * Math.random()); // fill data with random samples
+		}
+	var wave = new RIFFWAVE(data); // create the wave file
+	var audio = new Audio(wave.dataURI); // create the HTML5 audio element
+	//audio.play(); // some noise
+ </script>
+
+	Tone:<input type="range" name="Tone" min="0" max="256">
+	<input type="button" value="Play" onclick="audio.play();" />
+
+ </body>
+</html>
