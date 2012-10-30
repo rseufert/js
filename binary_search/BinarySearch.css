@@ -4,5 +4,12 @@
     -khtml-border-radius: 8px;
 	border:4px solid;
     border-radius: 8px;
+    border-color: #465973;
+}
+
+body {
+    background-color: #FFEBE1;
+    font-family: Arial;
+    color: #344059;
 }
 

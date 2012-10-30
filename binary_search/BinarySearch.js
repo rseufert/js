@@ -90,7 +90,7 @@ var data = [];
 		if (result === -1) {
 			document.write("<b>Sorry, the number you are looking for is not in the array.</b>");
 		} else {
-			document.write("<b>The number you are looking for is at array position: </b>"+ result);
+			document.write("<b>The number you are looking for is at array position: " + result + "</b>");
 			}
 	}
 	
