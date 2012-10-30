@@ -1,4 +1,4 @@
-var data = [];
+var data = [];	//ordered array of values
 	data[0] = 23;
 	data[1] = 28;
 	data[2] = 34;
@@ -9,8 +9,6 @@ var data = [];
 	data[7] = 68;
 	data[8] = 75;
 
-	//var colors = ["white", "green", "orange", "blue", "red", "yellow"];
-	//var color_index = 0;
 
 	//get a reference to the canvas 
 	var canvas = document.getElementById('canvas'); 
@@ -19,19 +17,19 @@ var data = [];
 	var c = canvas.getContext('2d'); 
 	//draw background
 
-	var searchResult = -1;
+	var searchResult = -1;	//index of search item (default is out of the array)
+	var dataChange = [];	//array of "data" array states
+	var changeIndex = 0;	//dataChange's index
+	var animateIndex = 0;	//used to "playback" the values in dataChange
 
 
-	function clear(){
+	function clear(){	//clears the canvas
 		c.fillStyle = "D1D9E8"; 
 		c.fillRect(0,0,1000,500);
 	}
-	//c.globalCompositeOperation = "xor";
-	//c.save();
 
-	function drawData(d){
-		//draw data
-		//c.restore();
+
+	function drawData(d){ //draw data
 		clear();
 		c.fillStyle = "7D879B"; 
 		for(var i=0; i<d.length; i++) { 
@@ -40,8 +38,7 @@ var data = [];
 		}
 	}
 	
-	function drawResult(d, r){
-		//draw result
+	function drawResult(d, r){ //draws all of the data with the search result highlighted
 		clear();
 		c.fillStyle = "7D879B"; 
 		for(var i=0; i<d.length; i++) { 
@@ -58,16 +55,13 @@ var data = [];
 
 
 
-	function binarySearch(searchTerm, data, left, right) 
+	function binarySearch(searchTerm, data, left, right)	//recurse binary search function
 	{
-		var drawChange = function(){	
-			dataChange = data.slice(left, right+1);
-			console.log(dataChange);
-			//drawData(dataChange);
+		function storeChange(){		//stores the state of the data each time the binary search function divides it
+			dataChange[changeIndex] = data.slice(left, right+1);
+			console.log(dataChange[changeIndex]);
+			changeIndex++;
 		};
-		//window.setTimeout(drawChange, 2000);
-		drawChange();
-
 		
 		if (left > right)
 			return -1;
@@ -75,26 +69,41 @@ var data = [];
 		var mid = parseInt((left + right)/2);
 	 
 		if (data[mid] === searchTerm) {
+			storeChange();
 			return mid;
 		} else if (data[mid] > searchTerm) {
+			storeChange();
 			return binarySearch(searchTerm, data, left, mid-1);
 		} else if (data[mid] < searchTerm) {
+			storeChange();
 			return binarySearch(searchTerm, data, mid+1, right);
 		}
 	}
 
-	function search(){
-		var result = binarySearch(34, data, 0, data.length - 1);
-		console.log(result);
-		drawResult(data, result);
-		if (result === -1) {
-			document.write("<b>Sorry, the number you are looking for is not in the array.</b>");
-		} else {
-			document.write("<b>The number you are looking for is at array position: " + result + "</b>");
+
+	function search(){	//calls binarySearch then animates the results
+		function animate(){ //iterates through the array of changes and draws each state
+			if(animateIndex < changeIndex){
+				for(var i=0; i<dataChange[animateIndex].length; i++){
+					drawData(dataChange[animateIndex]);
+				}
+				animateIndex++;
+			} else {
+				drawResult(data, result);
+				window.clearInterval(intId);
 			}
+		}
+
+		var result = binarySearch(75, data, 0, data.length - 1);
+		console.log(result);
+		var intId = window.setInterval(animate, 1750);
+		if (result === -1) {
+			document.write("<br /><br /> <b>***Spoiler Alert*** Sorry, the number you are looking for is not in the array.</b> \n");
+			document.write("<br /><br /> <img src='i.jpg' />");
+		} else {
+			document.write("<br /><br /> <b>***Spoiler Alert*** The number you are looking for is at array position: " + result + "</b>");
+		}
 	}
 	
-	document.write("<h2>Binary Search</h2>");
-	clear();
-	drawData(data);
-	search();
+	clear();	//initial clear to set the background color (I'm anal...)
+	search();	//Makes magics happens!!1
