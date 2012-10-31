@@ -98,7 +98,7 @@ var data = [];	//ordered array of values
 		var intId = window.setInterval(animate, 1750);
 		if (result === -1) {
 			document.write("<br /><br /> <b>***Spoiler Alert*** Sorry, the number you are looking for is not in the array.</b> \n");
-			document.write("<br /><br /> <img src='i.jpg' />");
+			document.write("<br /><br /> <img src='i' />");
 		} else {
 			document.write("<br /><br /> <b>***Spoiler Alert*** The number you are looking for is at array position: " + result + "</b>");
 		}
