@@ -11,10 +11,10 @@ var data = [];	//ordered array of values
 
 
 	//get a reference to the canvas 
-	var canvas = document.getElementById('canvas'); 
+	var canvas = document.getElementById('canvas');
 	 
 	//get a reference to the drawing context 
-	var c = canvas.getContext('2d'); 
+	var c = canvas.getContext('2d');
 	//draw background
 
 	var searchResult = -1;	//index of search item (default is out of the array)
@@ -23,13 +23,13 @@ var data = [];	//ordered array of values
 	var animateIndex = 0;	//used to "playback" the values in dataChange
 
 
-	function clear(){	//clears the canvas
-		c.fillStyle = "D1D9E8"; 
+	function clear() {	//clears the canvas
+		c.fillStyle = "D1D9E8";
 		c.fillRect(0,0,1000,500);
 	}
 
 
-	function drawData(d){ //draw data
+	function drawData(d) { //draw data
 		clear();
 		c.fillStyle = "7D879B"; 
 		for(var i=0; i<d.length; i++) { 
@@ -38,7 +38,7 @@ var data = [];	//ordered array of values
 		}
 	}
 	
-	function drawResult(d, r){ //draws all of the data with the search result highlighted
+	function drawResult(d, r) { //draws all of the data with the search result highlighted
 		clear();
 		c.fillStyle = "7D879B"; 
 		for(var i=0; i<d.length; i++) { 
@@ -55,9 +55,8 @@ var data = [];	//ordered array of values
 
 
 
-	function binarySearch(searchTerm, data, left, right)	//recurse binary search function
-	{
-		function storeChange(){		//stores the state of the data each time the binary search function divides it
+	function binarySearch(searchTerm, data, left, right) {	//recurse binary search function
+		function storeChange() {							//stores the state of the data each time the binary search function divides it
 			dataChange[changeIndex] = data.slice(left, right+1);
 			console.log(dataChange[changeIndex]);
 			changeIndex++;
@@ -81,10 +80,10 @@ var data = [];	//ordered array of values
 	}
 
 
-	function search(){	//calls binarySearch then animates the results
-		function animate(){ //iterates through the array of changes and draws each state
-			if(animateIndex < changeIndex){
-				for(var i=0; i<dataChange[animateIndex].length; i++){
+	function search() {				//calls binarySearch then animates the results
+		function animate() {		//iterates through the array of changes and draws each state
+			if(animateIndex < changeIndex) {
+				for(var i=0; i<dataChange[animateIndex].length; i++) {
 					drawData(dataChange[animateIndex]);
 				}
 				animateIndex++;
