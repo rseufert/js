@@ -24,30 +24,30 @@ var data = [];  //ordered array of values
 
     function clear() {          //clears the canvas
         c.fillStyle = "D1D9E8";
-        c.fillRect(0,0,1000,500);
+        c.fillRect(0, 0, 1000, 500);
     }
 
 
     function drawData(d) {          //draw data
         clear();
         c.fillStyle = "7D879B"; 
-        for(var i=0; i<d.length; i++) { 
+        for(var i = 0; i < d.length; i++) { 
             var dp = d[i]; 
-            c.fillRect(25 + i*100, 500-dp*5 - 30 , 50, dp*5); 
+            c.fillRect(25 + i*100, 500 - dp*5 - 30 , 50, dp*5); 
         }
     }
 	
     function drawResult(d, r) {     //draws all of the data with the search result highlighted
         clear();
         c.fillStyle = "7D879B"; 
-        for(var i=0; i<d.length; i++) { 
+        for(var i = 0; i < d.length; i++) { 
             var dp = d[i]; 
             if (i === r){
                 c.fillStyle = "EC8A6F";
-                c.fillRect(25 + i*100, 500-dp*5 - 30 , 50, dp*5);
+                c.fillRect(25 + i*100, 500 - dp*5 - 30 , 50, dp*5);
                 c.fillStyle = "7D879B";
             } else {
-                c.fillRect(25 + i*100, 500-dp*5 - 30 , 50, dp*5); 
+                c.fillRect(25 + i*100, 500 - dp*5 - 30 , 50, dp*5); 
             }
         }
     }
@@ -58,18 +58,18 @@ var data = [];  //ordered array of values
         if (left > right)
             return -1;
 
-        searchState[stateIndex] = data.slice(left, right+1);    //stores the state of the data each time the binary search function divides it
+        searchState[stateIndex] = data.slice(left, right + 1);    //stores the state of the data each time the binary search function divides it
         console.log(searchState[stateIndex]);
         stateIndex++;
 	 
-        var mid = parseInt((left + right)/2);
+        var mid = parseInt((left + right) / 2);
 	 
         if (data[mid] === searchTerm) {
             return mid;
         } else if (data[mid] > searchTerm) {
-            return binarySearch(searchTerm, data, left, mid-1);
+            return binarySearch(searchTerm, data, left, mid - 1);
         } else {
-            return binarySearch(searchTerm, data, mid+1, right);
+            return binarySearch(searchTerm, data, mid + 1, right);
         }
     }
 
@@ -77,7 +77,7 @@ var data = [];  //ordered array of values
     function search() {             //calls binarySearch then animates the results
         function animate() {        //iterates through the array of changes and draws each state
             if(animateIndex < stateIndex) {
-                for(var i=0; i<searchState[animateIndex].length; i++) {
+                for(var i = 0; i < searchState[animateIndex].length; i++) {
                     drawData(searchState[animateIndex]);
                 }
                 animateIndex++;
