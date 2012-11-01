@@ -15,7 +15,6 @@ var data = [];  //ordered array of values
 	 
     //get a reference to the drawing context 
     var c = canvas.getContext('2d');
-    //draw background
 
     var searchResult = -1;  //index of search item (default is out of the array)
     var searchState = [];    //array of "data" array states
@@ -55,26 +54,21 @@ var data = [];  //ordered array of values
 
 
 
-    function binarySearch(searchTerm, data, left, right) {  //recurse binary search function
-        function storeState() {                            //stores the state of the data each time the binary search function divides it
-            searchState[stateIndex] = data.slice(left, right+1);
-            console.log(searchState[stateIndex]);
-            stateIndex++;
-        };
-		
+    function binarySearch(searchTerm, data, left, right) {
         if (left > right)
             return -1;
+
+        searchState[stateIndex] = data.slice(left, right+1);    //stores the state of the data each time the binary search function divides it
+        console.log(searchState[stateIndex]);
+        stateIndex++;
 	 
         var mid = parseInt((left + right)/2);
 	 
         if (data[mid] === searchTerm) {
-            storeState();
             return mid;
         } else if (data[mid] > searchTerm) {
-            storeState();
             return binarySearch(searchTerm, data, left, mid-1);
         } else {
-            storeState();
             return binarySearch(searchTerm, data, mid+1, right);
         }
     }
