@@ -104,9 +104,9 @@ var data = [];  //ordered array of values
     };
 
 
-    var readForm = function() {
+    var readForm = function() {                         //read the value of the text input field when the search button is clicked
         var search_term = document.search.term.value;
-        search_term = parseInt(search_term, 10);
+        search_term = parseInt(search_term, 10);        //parseInt is used to convert the search_term from a string to a number. The '10' parameter is the optional radix, though Crockford advises using it all the time to avoid octal confusion.
         search(search_term);
     };
 
