@@ -119,3 +119,5 @@ var data = [];  //ordered array of values
 
     clear();    //initial clear to set the background color (I'm anal...)
     document.getElementById("search").innerHTML = "<form name='search'>Search: <input type='text' id='term' name='term'></form><button name='searchButton' onclick='readForm();'>Search</button>";
+
+    
