@@ -17,9 +17,9 @@ var data = [];  //ordered array of values
     var c = canvas.getContext('2d');
 
     var searchResult = -1;  //index of search item (default is out of the array)
-    var searchState = [];    //array of "data" array states
+    var searchState = [];    //array of objects that contain "data" array "left" and "right" index values
     var stateIndex = 0;    //searchState's index
-    var animateIndex = 0;   //used to "playback" the values in searchState
+    var animateIndex = 0;  //index value used to "playback" the searchState array
 
 
     var clear = function() {          //clears the canvas, sets the background color
@@ -31,7 +31,7 @@ var data = [];  //ordered array of values
     var drawData = function(d) {          //need to draw the remaining elements in the data array
         clear();
         c.fillStyle = "7D879B"; 
-        for(var i = 0; i < d.length; i++) { 
+        for (var i = 0; i < d.length; i++) { 
             var dp = d[i]; 
             c.fillRect(25 + i*100, 500 - dp*5 - 30, 50, dp*5); 
         }
@@ -41,7 +41,7 @@ var data = [];  //ordered array of values
     var drawResult = function(d, r) {     //similar to draw data, but highlights the search result
         clear();
         c.fillStyle = "7D879B"; 
-        for(var i = 0; i < d.length; i++) { 
+        for (var i = 0; i < d.length; i++) { 
             var dp = d[i]; 
             if (i === r){
                 c.fillStyle = "EC8A6F";
@@ -54,13 +54,12 @@ var data = [];  //ordered array of values
     };
 
 
-    var animate = function() {        //draw the appropriate frame each time the user clicks Next
-        if(animateIndex < stateIndex) {
-            for(var i = 0; i < searchState[animateIndex].length; i++) {
-                drawData(searchState[animateIndex]);
-            }
+    var animate = function() {                  //draw the appropriate frame each time the user clicks Next
+        if(searchState[animateIndex] !== undefined) {
+            drawData(data.slice(searchState[animateIndex].l, searchState[animateIndex].r));
             animateIndex++;
         } else {
+        
             drawResult(data, searchResult);
 
             if (searchResult === -1) {
@@ -71,7 +70,7 @@ var data = [];  //ordered array of values
                 document.getElementById("not_found").innerHTML = "";
                 document.getElementById("i").innerHTML = "";
                 document.getElementById("found").innerHTML = "The number you are looking for is at array position: " + searchResult;
-            }    
+            }
         }
     };
 
@@ -80,8 +79,15 @@ var data = [];  //ordered array of values
         if (left > right)
             return -1;
 
-        searchState[stateIndex] = data.slice(left, right + 1);    //stores the state of the data each time the binary search function divides it
-        console.log(searchState[stateIndex]);
+        searchState[stateIndex] =               //stores the boundary indices of the relevant data each time the binary search function divides it
+        {
+            l: left,
+            r: right + 1
+        };
+        
+        console.log("Relevant indices: " + searchState[stateIndex].l + ", " + searchState[stateIndex].r);
+        console.log("Remaining data: " + data.slice(searchState[stateIndex].l, searchState[stateIndex].r));
+        
         stateIndex++;
 	 
         var mid = Math.round((left + right) / 2);
@@ -99,7 +105,7 @@ var data = [];  //ordered array of values
     var search = function(term) {
         console.log("Searching for " + term);
         searchResult = binarySearch(term, data, 0, data.length - 1);
-        console.log(searchResult);
+        console.log("Search result: " + searchResult);
         document.getElementById("next").innerHTML = "<button onclick='animate();'>Next</button>";
     };
 
