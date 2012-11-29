@@ -29,7 +29,7 @@ var data = [];  //ordered array of values
     var canvasWidth = canvas.getAttribute("width");
     var canvasHeight = canvas.getAttribute("height");
     var canvasColor = "D1D9E8";
-    var barColor = "7D879B";
+    var barColorNormal = "7D879B";
     var barColorResult = "EC8A6F";
     var barColorInitial = "2B9F7D";
     var barWidth = 50;
@@ -37,6 +37,8 @@ var data = [];  //ordered array of values
     var leftOffset = 20;
     var bottomOffset = 2;
     var heightMultiple = 5;
+    var labelColor = "white";
+    var labelFont = "18pt sans-serif";
 
 
     var clear = function() {          //clears the canvas, sets the background color
@@ -46,27 +48,35 @@ var data = [];  //ordered array of values
 
 
     var drawData = function(d, optionalColor) {          //need to draw the remaining elements in the data array
-        optionalColor = (typeof optionalColor === "undefined") ? barColor : optionalColor;
-        clear();
-        c.fillStyle = optionalColor; 
+        optionalColor = (typeof optionalColor === "undefined") ? barColorNormal : optionalColor;
+        clear(); 
         for (var i = 0; i < d.length; i++) { 
-            var barValue = d[i]; 
-            c.fillRect(leftOffset + i * barSpacing, canvasHeight - barValue * heightMultiple - bottomOffset, barWidth, barValue * heightMultiple); 
+            var barValue = d[i];
+            c.fillStyle = optionalColor;
+            c.fillRect(leftOffset + i * barSpacing, canvasHeight - barValue * heightMultiple - bottomOffset, barWidth, barValue * heightMultiple);
+            c.fillStyle = labelColor;
+            c.font = labelFont;
+            c.fillText(barValue, i * barSpacing + barWidth / 2, canvasHeight - barValue * heightMultiple / 2 - bottomOffset);
         }
     };
 	
 
     var drawResult = function(d, r) {     //similar to draw data, but highlights the search result
-        clear();
-        c.fillStyle = barColor; 
+        clear(); 
         for (var i = 0; i < d.length; i++) { 
-            var barValue = d[i]; 
+            var barValue = d[i];
+            c.fillStyle = barColorNormal;
             if (i === r){
                 c.fillStyle = barColorResult;
                 c.fillRect(leftOffset + i * barSpacing, canvasHeight - barValue * heightMultiple - bottomOffset, barWidth, barValue * heightMultiple);
-                c.fillStyle = barColor;
+                c.fillStyle = labelColor;
+                c.font = labelFont;
+                c.fillText(barValue, i * barSpacing + barWidth / 2, canvasHeight - barValue * heightMultiple / 2 - bottomOffset);
             } else {
-                c.fillRect(leftOffset + i * barSpacing, canvasHeight - barValue * heightMultiple - bottomOffset, barWidth, barValue * heightMultiple); 
+                c.fillRect(leftOffset + i * barSpacing, canvasHeight - barValue * heightMultiple - bottomOffset, barWidth, barValue * heightMultiple);
+                c.fillStyle = labelColor;
+                c.font = labelFont;
+                c.fillText(barValue, i * barSpacing + barWidth / 2, canvasHeight - barValue * heightMultiple / 2 - bottomOffset); 
             }
         }
         document.getElementById("nextButton").disabled = true;
