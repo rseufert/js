@@ -5,11 +5,15 @@
 <body>
 
     <h2>Binary Search</h2>
+    <canvas width="1200" height="640" id="canvas"></canvas> 
     <br />
-    <canvas width="1000" height="500" id="canvas"></canvas> 
+    <span id="search">
+        <form name='search'>Search: <input type='text' id='term' name='term'>
+        </form>
+        <button id='searchButton' onclick='readForm();'>Search</button>
+    </span>
+    <span id="next"><button id="nextButton" onclick='animate();'>Next</button></span>
     <br />
-    <span id="search"></span>
-    <span id="next"></span>
     <br />
     <div id="found"></div>
     <div id="not_found"></div>

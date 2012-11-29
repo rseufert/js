@@ -8,6 +8,11 @@ var data = [];  //ordered array of values
     data[6] = 60;
     data[7] = 68;
     data[8] = 75;
+    data[9] = 81;
+    data[10] = 90;
+    data[11] = 99;
+    data[12] = 111;
+    data[13] = 125;
 
 
     //get a reference to the canvas 
@@ -20,37 +25,52 @@ var data = [];  //ordered array of values
     var searchState = [];    //array of objects that contain "data" array "left" and "right" index values
     var stateIndex = 0;    //searchState's index
     var animateIndex = 0;  //index value used to "playback" the searchState array
+    
+    var canvasWidth = canvas.getAttribute("width");
+    var canvasHeight = canvas.getAttribute("height");
+    var canvasColor = "D1D9E8";
+    var barColor = "7D879B";
+    var barColorResult = "EC8A6F";
+    var barColorInitial = "2B9F7D";
+    var barWidth = 50;
+    var barSpacing = 85;
+    var leftOffset = 20;
+    var bottomOffset = 2;
+    var heightMultiple = 5;
 
 
     var clear = function() {          //clears the canvas, sets the background color
-        c.fillStyle = "D1D9E8";
-        c.fillRect(0, 0, 1000, 500);
+        c.fillStyle = canvasColor;
+        c.fillRect(0, 0, canvasWidth, canvasHeight);
     };
 
 
-    var drawData = function(d) {          //need to draw the remaining elements in the data array
+    var drawData = function(d, optionalColor) {          //need to draw the remaining elements in the data array
+        optionalColor = (typeof optionalColor === "undefined") ? barColor : optionalColor;
         clear();
-        c.fillStyle = "7D879B"; 
+        c.fillStyle = optionalColor; 
         for (var i = 0; i < d.length; i++) { 
-            var dp = d[i]; 
-            c.fillRect(25 + i*100, 500 - dp*5 - 30, 50, dp*5); 
+            var barValue = d[i]; 
+            c.fillRect(leftOffset + i * barSpacing, canvasHeight - barValue * heightMultiple - bottomOffset, barWidth, barValue * heightMultiple); 
         }
     };
 	
 
     var drawResult = function(d, r) {     //similar to draw data, but highlights the search result
         clear();
-        c.fillStyle = "7D879B"; 
+        c.fillStyle = barColor; 
         for (var i = 0; i < d.length; i++) { 
-            var dp = d[i]; 
+            var barValue = d[i]; 
             if (i === r){
-                c.fillStyle = "EC8A6F";
-                c.fillRect(25 + i*100, 500 - dp*5 - 30, 50, dp*5);
-                c.fillStyle = "7D879B";
+                c.fillStyle = barColorResult;
+                c.fillRect(leftOffset + i * barSpacing, canvasHeight - barValue * heightMultiple - bottomOffset, barWidth, barValue * heightMultiple);
+                c.fillStyle = barColor;
             } else {
-                c.fillRect(25 + i*100, 500 - dp*5 - 30, 50, dp*5); 
+                c.fillRect(leftOffset + i * barSpacing, canvasHeight - barValue * heightMultiple - bottomOffset, barWidth, barValue * heightMultiple); 
             }
         }
+        document.getElementById("nextButton").disabled = true;
+        document.getElementById("searchButton").disabled = false;
     };
 
 
@@ -79,8 +99,7 @@ var data = [];  //ordered array of values
         if (left > right)
             return -1;
 
-        searchState[stateIndex] =               //stores the boundary indices of the relevant data each time the binary search function divides it
-        {
+        searchState[stateIndex] =  {             //stores the boundary indices of the relevant data each time the binary search function divides it
             l: left,
             r: right + 1
         };
@@ -106,7 +125,9 @@ var data = [];  //ordered array of values
         console.log("Searching for " + term);
         searchResult = binarySearch(term, data, 0, data.length - 1);
         console.log("Search result: " + searchResult);
-        document.getElementById("next").innerHTML = "<button onclick='animate();'>Next</button>";
+        document.getElementById("nextButton").disabled = false;
+        document.getElementById("searchButton").disabled = true;
+        drawData(data, barColorInitial);
     };
 
 
@@ -118,6 +139,6 @@ var data = [];  //ordered array of values
 
 
     clear();    //initial clear to set the background color (I'm anal...)
-    document.getElementById("search").innerHTML = "<form name='search'>Search: <input type='text' id='term' name='term'></form><button name='searchButton' onclick='readForm();'>Search</button>";
-
+    drawData(data, barColorInitial);
+    document.getElementById("nextButton").disabled = true;
     
