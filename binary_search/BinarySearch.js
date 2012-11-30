@@ -1,18 +1,18 @@
-var data = [];  //ordered array of values
-    data[0] = 23;
-    data[1] = 28;
-    data[2] = 34;
-    data[3] = 40;
-    data[4] = 47;
-    data[5] = 54;
-    data[6] = 60;
-    data[7] = 68;
-    data[8] = 75;
-    data[9] = 81;
-    data[10] = 90;
-    data[11] = 99;
-    data[12] = 111;
-    data[13] = 125;
+    var data = [];  //ordered array of values
+        data[0] = 23;
+        data[1] = 28;
+        data[2] = 34;
+        data[3] = 40;
+        data[4] = 47;
+        data[5] = 54;
+        data[6] = 60;
+        data[7] = 68;
+        data[8] = 75;
+        data[9] = 81;
+        data[10] = 90;
+        data[11] = 99;
+        data[12] = 111;
+        data[13] = 125;
 
 
     //get a reference to the canvas 
@@ -148,7 +148,7 @@ var data = [];  //ordered array of values
     };
 
 
-    clear();    //initial clear to set the background color (I'm anal...)
+    clear();                                            //initial clear to set the background color (I'm anal...)
     drawData(data, barColorInitial);
     document.getElementById("nextButton").disabled = true;
     

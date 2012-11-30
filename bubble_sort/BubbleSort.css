@@ -1,0 +1,15 @@
+#canvas {
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -khtml-border-radius: 8px;
+    border:3px solid;
+    border-radius: 8px;
+    border-color: #465973;
+}
+
+body {
+    background-color: #FFEBE1;
+    font-family: Arial;
+    font-weight: bold;
+    color: #344059;
+}
