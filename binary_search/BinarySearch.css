@@ -14,7 +14,7 @@ body {
     color: #344059;
 }
 
-img {
+#i > img {
     -moz-border-radius: 8px;
     -webkit-border-radius: 8px;
     -khtml-border-radius: 8px;

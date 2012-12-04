@@ -15,7 +15,7 @@
     var barColorNormal = "0B3B59";
     var barWidth = 50;
     var barSpacing = 70;
-    var leftOffset = 20;
+    var leftOffset = 18;
     var bottomOffset = 2;
     var heightMultiple = 5;
     var labelColor = "E2F266";
@@ -56,8 +56,8 @@
                     temp = d[j];                        //if left value is greater than right value, use temp variable to swap the values
                     d[j] = d[j + 1];
                     d[j + 1] = temp;
-                    newBound = j - 1;
-                    console.log(d);
+                    newBound = j - 1;                   //keeps track of the last two values sorted, so it doesn't have to waste time comparing them again
+                    console.log("Sorting... " + d);
                 }
             }
             bound = newBound;
