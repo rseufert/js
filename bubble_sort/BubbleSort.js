@@ -3,7 +3,7 @@
 
     //get a reference to the canvas 
     var canvas = document.getElementById('canvas');
-	 
+
     //get a reference to the drawing context 
     var c = canvas.getContext('2d');
 
@@ -19,15 +19,15 @@
     var bottomOffset = 2;
     var heightMultiple = 5;
     var labelColor = "E2F266";
-    var labelFont = "18pt Lucida Sans";
-    
+    var labelFont = "16pt Lucida Sans";
+
 
 
     var clear = function() {                               //clears the canvas, sets the background color
         c.fillStyle = canvasColor;
         c.fillRect(0, 0, canvasWidth, canvasHeight);
     };
-    
+
 
     var drawData = function(d, optionalColor) {          //need to draw the remaining elements in the data array
         optionalColor = (typeof optionalColor === "undefined") ? barColorNormal : optionalColor;
@@ -68,12 +68,17 @@
 
 
     var sortData = function() {
-        data = bubbleSort(data);
+        var sortedData = data.slice(0);
+        sortedData = bubbleSort(sortedData);
+        drawData(sortedData);
+    };
+
+
+    var reset = function() {
+        console.log("Resetting data array.");
         drawData(data);
     };
     
 
     clear();                                            //initial clear to set the background
     drawData(data);
-    //data = bubbleSort(data);
-    //drawData(data)
