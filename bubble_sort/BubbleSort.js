@@ -10,7 +10,7 @@
     //get canvas dimensions
     var canvasWidth = canvas.getAttribute("width");
     var canvasHeight = canvas.getAttribute("height");
-
+    
     var canvasColor = "BBDDF2";
     var barColorNormal = "0B3B59";
     var barWidth = 50;
@@ -20,8 +20,7 @@
     var heightMultiple = 5;
     var labelColor = "E2F266";
     var labelFont = "16pt Lucida Sans";
-
-
+    
 
     var clear = function() {                               //clears the canvas, sets the background color
         c.fillStyle = canvasColor;
@@ -71,12 +70,16 @@
         var sortedData = data.slice(0);
         sortedData = bubbleSort(sortedData);
         drawData(sortedData);
+        document.getElementById("resetButton").disabled = false;
+        document.getElementById("sortButton").disabled = true;
     };
 
 
     var reset = function() {
         console.log("Resetting data array.");
         drawData(data);
+        document.getElementById("resetButton").disabled = true;
+        document.getElementById("sortButton").disabled = false;
     };
     
 
