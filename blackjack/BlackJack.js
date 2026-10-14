@@ -12,6 +12,20 @@ function Card(suit_param, number_param){
 		return suit;
 	};
 	
+	this.getName = function(){
+		if (number === 1){
+			return "Ace";
+		} else if (number === 11){
+			return "Jack";
+		} else if (number === 12){
+			return "Queen";
+		} else if (number === 13){
+			return "King";
+		} else {
+			return number;
+		}
+	};
+
 	this.getValue = function(){
 		if (number === 1){
 			return 11;
@@ -56,13 +70,13 @@ function Hand(){
 		var str = "";
 		for (var i=0; i<len; i++){
           if (hand[i].getSuit() === 1){
-              str = str + hand[i].getNumber() + " of Clubs, ";
+              str = str + hand[i].getName() + " of Clubs, ";
           } else if (hand[i].getSuit() === 2){
-              str = str + hand[i].getNumber() + " of Diamonds, ";
+              str = str + hand[i].getName() + " of Diamonds, ";
           } else if (hand[i].getSuit() === 3){
-              str = str + hand[i].getNumber() + " of Hearts, ";
+              str = str + hand[i].getName() + " of Hearts, ";
           } else if (hand[i].getSuit() === 4){
-              str = str + hand[i].getNumber() + " of Spades, ";
+              str = str + hand[i].getName() + " of Spades, ";
           }
 		}
 		return str;
@@ -113,10 +127,9 @@ function playAsDealer(){
 function playAsUser(){
     console.log("Playing as user");
 	var h = new Hand();
-	var bool = confirm(h.printHand() + "do you want another hit?");
-	while(bool === true){
+	// Stop asking once the hand reaches 21 or busts, since another hit can't help
+	while(h.score() < 21 && confirm(h.printHand() + "do you want another hit?") === true){
 		h.hitMe();
-		bool = confirm(h.printHand() + "do you want another hit?");
 	}
 	return h;
 }
@@ -131,11 +144,7 @@ function declareWinner(userHand, dealerHand){
 	var lose = "You lose!";
 	
 	if (userScore > 21){
-		if (dealerScore > 21){
-			return tied;
-		} else {
-			return lose;
-		}
+		return lose; // The player busts first, so they lose even if the dealer busts too
 	}
 	if (dealerScore > 21){
 		return win;
