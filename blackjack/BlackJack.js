@@ -38,7 +38,7 @@ function Hand(){
 		var len = hand.length;
 		var sum = 0;
 		var aces = 0;
-		for (i=0; i<len; i++){
+		for (var i=0; i<len; i++){
 			sum += hand[i].getValue();
 			if (hand[i].getValue() === 11){
 				aces++;
@@ -54,7 +54,7 @@ function Hand(){
 	this.printHand = function(){
 		var len = hand.length;
 		var str = "";
-		for (i=0; i<len; i++){
+		for (var i=0; i<len; i++){
           if (hand[i].getSuit() === 1){
               str = str + hand[i].getNumber() + " of Clubs, ";
           } else if (hand[i].getSuit() === 2){
@@ -73,13 +73,30 @@ function Hand(){
 	};
 }
 
-//Deal function
+//Deck shared by the user and the dealer for one game
+var deck = [];
+
+//newDeck function - builds all 52 cards and shuffles them (Fisher-Yates)
+function newDeck(){
+    console.log("Shuffling a new deck");
+	deck = [];
+	for (var s=1; s<=4; s++){
+		for (var n=1; n<=13; n++){
+			deck[deck.length] = new Card(s, n);
+		}
+	}
+	for (var i=deck.length - 1; i>0; i--){
+		var j = Math.floor(Math.random() * (i + 1));
+		var temp = deck[i];
+		deck[i] = deck[j];
+		deck[j] = temp;
+	}
+}
+
+//Deal function - takes the top card off the deck, so no card can be dealt twice
 function deal(){
     console.log("Dealing...");
-	var s = Math.floor(Math.random() * 4 + 1);
-	var n = Math.floor(Math.random() * 13 + 1);
-	var Card1 = new Card(s, n);
-	return Card1;
+	return deck.pop();
 }
 
 //playAsDealer function
@@ -134,6 +151,7 @@ function declareWinner(userHand, dealerHand){
 
 //playGame function
 function playGame(){
+	newDeck();
 	var userHand = playAsUser();
 	var dealerHand = playAsDealer();
 	var result = declareWinner(userHand, dealerHand);
