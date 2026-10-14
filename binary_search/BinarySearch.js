@@ -28,10 +28,10 @@
     
     var canvasWidth = canvas.getAttribute("width");
     var canvasHeight = canvas.getAttribute("height");
-    var canvasColor = "D1D9E8";
-    var barColorNormal = "7D879B";
-    var barColorResult = "EC8A6F";
-    var barColorInitial = "2B9F7D";
+    var canvasColor = "#D1D9E8";
+    var barColorNormal = "#7D879B";
+    var barColorResult = "#EC8A6F";
+    var barColorInitial = "#2B9F7D";
     var barWidth = 50;
     var barSpacing = 85;
     var leftOffset = 20;

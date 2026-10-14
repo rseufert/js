@@ -11,14 +11,14 @@
     var canvasWidth = canvas.getAttribute("width");
     var canvasHeight = canvas.getAttribute("height");
     
-    var canvasColor = "BBDDF2";
-    var barColorNormal = "0B3B59";
+    var canvasColor = "#BBDDF2";
+    var barColorNormal = "#0B3B59";
     var barWidth = 50;
     var barSpacing = 70;
     var leftOffset = 18;
     var bottomOffset = 2;
     var heightMultiple = 5;
-    var labelColor = "E2F266";
+    var labelColor = "#E2F266";
     var labelFont = "16pt Lucida Sans";
     
 
