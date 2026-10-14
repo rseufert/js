@@ -84,7 +84,7 @@
     };
 
 
-    var animate = function() {                  //draw the appropriate frame each time the user clicks Next
+    var step = function() {                     //draw the appropriate frame each time the user clicks Next
         if(searchState[animateIndex] !== undefined) {
             drawData(data.slice(searchState[animateIndex].l, searchState[animateIndex].r));
             animateIndex++;
