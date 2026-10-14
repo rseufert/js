@@ -1,9 +1,32 @@
-var isVowel = function(char){
-  var charLower = char.toLowerCase();
-  if(charLower === 'a' || charLower === 'e' || charLower === 'i' || charLower === 'o' || charLower === 'u' || charLower === 'y'){
+var isLetter = function(c){
+  return (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z');
+};
+
+var isVowel = function(word, index){
+  var charLower = word.charAt(index).toLowerCase();
+  if(charLower === 'y'){
+    return index > 0;  // 'y' is a consonant at the start of a word ("yellow") and a vowel elsewhere ("rhythm")
+  }
+  if(charLower === 'a' || charLower === 'e' || charLower === 'i' || charLower === 'o' || charLower === 'u'){
     return true;
   }
   return false;
+};
+
+var splitPunctuation = function(word){  // separates leading/trailing punctuation so "cool!" is translated as "cool" + "!"
+  var start = 0;
+  var end = word.length;
+  while(start < end && !isLetter(word.charAt(start))){
+    start++;
+  }
+  while(end > start && !isLetter(word.charAt(end - 1))){
+    end--;
+  }
+  return {
+    lead: word.substring(0, start),
+    core: word.substring(start, end),
+    trail: word.substring(end)
+  };
 };
 
 var isTranslatable = function(sample){
@@ -11,15 +34,10 @@ var isTranslatable = function(sample){
   var vowelCount = 0;
   for(var i = 0; i < len; i++){
     var c = sample.charAt(i);
-    if(c < 'A' || c > 'z'){
-      if(c !== '\'' && c !== '-'){
-        return false;
-      }
-    }
-    if(c > 'Z' && c < 'a'){
+    if(!isLetter(c) && c !== '\'' && c !== '-'){
       return false;
     }
-    if(isVowel(c) === true){
+    if(isVowel(sample, i) === true){
       vowelCount++;
     }
   }
@@ -31,11 +49,16 @@ var isTranslatable = function(sample){
 };
 
 var translateWord = function(word){
-  if(isTranslatable(word) === true){
-    for(var j = 0; j < word.length; j++){
-      if(isVowel(word.charAt(j)) === true){
-        return word.substring(j) + "-" + word.substring(0, j) + "ay";
-      } 
+  var p = splitPunctuation(word);
+  var core = p.core;
+  if(isTranslatable(core) === true){
+    for(var j = 0; j < core.length; j++){
+      if(core.charAt(j) === '-'){
+        break;  // a hyphen before the first vowel ("x-ray") couldn't be untranslated, so leave the word alone
+      }
+      if(isVowel(core, j) === true){
+        return p.lead + core.substring(j) + "-" + core.substring(0, j) + "ay" + p.trail;
+      }
     }
   }
   return word;
@@ -55,13 +78,31 @@ var translateSentence = function(sentence){
 };
 
 var untranslateWord = function(word){
-  var parts = word.split('-');
-  
-  if(parts.length === 1){
+  var p = splitPunctuation(word);
+  var marker = p.core.lastIndexOf('-');  // the last hyphen is ours, so "ell-known-way" still splits correctly
+
+  if(marker === -1){
     return word;
   }
-  
-  return parts[1].substring(0, parts[1].length - 2) + parts[0];
+
+  var front = p.core.substring(0, marker);
+  var back = p.core.substring(marker + 1);
+  if(back.toLowerCase().substring(back.length - 2) !== 'ay'){
+    return word;
+  }
+
+  var prefix = back.substring(0, back.length - 2);
+  var original = prefix + front;
+  for(var i = 0; i < prefix.length; i++){
+    if(isVowel(original, i) === true){
+      return word;  // translateWord only ever moves the letters before the first vowel, so this wasn't pig latin ("x-ray")
+    }
+  }
+  if(isVowel(original, prefix.length) === false){
+    return word;
+  }
+
+  return p.lead + original + p.trail;
 };
 
 var untranslateSentence = function(pigStr){
